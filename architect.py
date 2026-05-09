@@ -15,13 +15,71 @@ architecture = Architecture(
             kind="external",
             description="The person interacting with the spatial canvas.",
         ),
+
+        # ── Frontend Application ──────────────────────────────────────
+        Component(
+            id="frontend_app",
+            kind="application",
+            description="The frontend web application (React/Vite).",
+        ),
+
+        # ── Canvas UI Subsystem ───────────────────────────────────────
         Component(
             id="canvas_ui",
-            kind="frontend",
+            kind="application",
             domains=["frontend"],
-            description="Spatial UI rendering cards, wires, thread trays, and stale state indicators.",
+            description="The spatial canvas UI subsystem. Contains the visual layers for rendering cards, wires, thread trays, and the toolbar on an infinite pan/zoom surface.",
             parent="frontend_app",
         ),
+        Component(
+            id="canvas_surface",
+            kind="frontend",
+            domains=["frontend"],
+            description="Infinite pan/zoom viewport with grid-dot background pattern. Manages camera state (pan, zoom, viewport bounds) and delegates hit-testing to child layers.",
+            parent="canvas_ui",
+        ),
+        Component(
+            id="card_renderer",
+            kind="frontend",
+            domains=["frontend"],
+            description="Renders card nodes by type (Source, Lens, Action, Output). Each card is an elevated white surface with an accent-colored left stripe, title bar, content area, and status indicators.",
+            parent="canvas_ui",
+            widgets=["frontend-canvas-card-surface-typescript"],
+        ),
+        Component(
+            id="wire_renderer",
+            kind="frontend",
+            domains=["frontend"],
+            description="Renders directed edges (wires) between cards. Handles default, active, and stale-glow states. Draws animated dash patterns for in-progress execution and yellow pulse for stale dependencies.",
+            parent="canvas_ui",
+        ),
+        Component(
+            id="thread_tray",
+            kind="frontend",
+            domains=["frontend"],
+            description="Ephemeral micro-thread panel that slides out from a card. Provides a bounded chat context for iterating on a single card's content without polluting the main canvas. Exposes a 'Commit to Card' action.",
+            parent="canvas_ui",
+        ),
+        Component(
+            id="toolbar",
+            kind="frontend",
+            domains=["frontend"],
+            description="Control bar with Run, Re-flow, card creation buttons, and workspace controls. Docked to the canvas edge.",
+            parent="canvas_ui",
+        ),
+        Component(
+            id="theme_layer",
+            kind="service",
+            domains=["frontend"],
+            description="Design token system and theme mode provider. Applies the Tiger12 warm-light palette (Inter + Cardo, orange accent) to :root via CSS custom properties. Manages light/dark/system mode.",
+            parent="canvas_ui",
+            widgets=[
+                "cg-frontend-design-tokens-javascript",
+                "frontend-canvas-theme-provider-typescript",
+            ],
+        ),
+
+        # ── Frontend Data / Services ─────────────────────────────────
         Component(
             id='reactive_store',
             kind='datastore',
@@ -46,10 +104,12 @@ architecture = Architecture(
             parent='frontend_app',
             widgets=['frontend-retry-fetch-client-typescript'],
         ),
+
+        # ── Backend ──────────────────────────────────────────────────
         Component(
-            id="frontend_app",
-            kind="application",
-            description="The frontend web application (React/Vite).",
+            id="backend_app",
+            kind="deployment",
+            description="The FastAPI backend server handling API requests and LLM orchestration.",
         ),
         Component(
             id="workspace_api",
@@ -78,11 +138,15 @@ architecture = Architecture(
             widgets=['cg_backend_llm_provider_interface_python'],
         ),
         Component(
-            id="agent_runtime",
-            kind="service",
-            domains=["backend"],
-            description="Handles LLM tool calls (SpawnCard, UpdateCard, LinkCards) for bi-directional mutability.",
-            parent="backend_app",
+            id='agent_runtime',
+            kind='service',
+            domains=['backend'],
+            description='Handles LLM tool calls (SpawnCard, UpdateCard, LinkCards) for bi-directional mutability.',
+            parent='backend_app',
+            widgets=[
+                'cg_universal_tool_invocation_python',
+                'cg_universal_agent_tool_loop_python',
+            ],
         ),
         Component(
             id="relational_db",
@@ -92,30 +156,45 @@ architecture = Architecture(
             parent="backend_app",
         ),
         Component(
-            id="backend_app",
-            kind="deployment",
-            description="The FastAPI backend server handling API requests and LLM orchestration.",
-        ),
-        Component(
             id="llm_service",
             kind="external",
             description="The underlying LLM API (e.g., Gemini, Claude).",
         ),
     ],
     edges=[
-        Edge(source="user", target="canvas_ui", kind="interacts_with"),
-        Edge(source="canvas_ui", target="reactive_store", kind="reads_writes", what="Graph mutations"),
-        Edge(source="canvas_ui", target="session_state", kind="triggers", what="Load/Save events"),
+        # User ↔ Canvas
+        Edge(source="user", target="canvas_surface", kind="interacts_with", what="Pan, zoom, click, drag"),
+        Edge(source="user", target="toolbar", kind="interacts_with", what="Run, Re-flow, create card"),
+        Edge(source="user", target="thread_tray", kind="interacts_with", what="Ephemeral chat, Commit to Card"),
+
+        # Canvas internal layers ↔ Reactive Store
+        Edge(source="canvas_surface", target="reactive_store", kind="reads", what="Node positions for layout"),
+        Edge(source="card_renderer", target="reactive_store", kind="reads_writes", what="Card content, type, stale status"),
+        Edge(source="wire_renderer", target="reactive_store", kind="reads", what="Edge topology, stale flags"),
+        Edge(source="thread_tray", target="reactive_store", kind="reads_writes", what="Ephemeral thread state, commit mutations"),
+
+        # Theme provides to all canvas layers
+        Edge(source="theme_layer", target="canvas_surface", kind="provides", what="CSS custom properties"),
+        Edge(source="theme_layer", target="card_renderer", kind="provides", what="Card accent colors, typography"),
+        Edge(source="theme_layer", target="wire_renderer", kind="provides", what="Wire stroke styles, stale-glow tokens"),
+
+        # Toolbar triggers
+        Edge(source="toolbar", target="compiler", kind="triggers_run", what="Target node ID"),
+        Edge(source="toolbar", target="reactive_store", kind="mutates", what="Create card, re-flow stale"),
+
+        # Session / Network
+        Edge(source="canvas_surface", target="session_state", kind="triggers", what="Load/Save events"),
         Edge(source="session_state", target="fetch_client", kind="calls", what="Wraps API requests"),
         Edge(source="fetch_client", target="workspace_api", kind="calls", what="HTTP Requests"),
         Edge(source="session_state", target="reactive_store", kind="mutates", what="Hydrates graph"),
+
+        # Backend
         Edge(source="workspace_api", target="relational_db", kind="reads_writes", what="Session Data"),
-        Edge(source="canvas_ui", target="compiler", kind="triggers_run", what="Target node ID"),
         Edge(source="compiler", target="relational_db", kind="reads", what="Ancestry paths/Graph topology"),
         Edge(source="compiler", target="execution_engine", kind="passes_context", what="Linearized context array"),
         Edge(source="execution_engine", target="llm_service", kind="calls", what="Prompt + Tools"),
         Edge(source="llm_service", target="agent_runtime", kind="returns_tools", what="Canvas Operations"),
         Edge(source="agent_runtime", target="relational_db", kind="mutates", what="Updates graph state"),
     ],
-    notes="The architecture prioritizes a reactive state DAG. The LLM acts as a multi-player co-editor via Canvas Operations.",
+    notes="The architecture prioritizes a reactive state DAG. The canvas_ui subsystem is decomposed into visual layers (surface, cards, wires, threads, toolbar) fed by a shared theme_layer. The LLM acts as a multi-player co-editor via Canvas Operations.",
 )

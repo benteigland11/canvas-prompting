@@ -5,10 +5,14 @@
     "version": "1.0.0",
     "domain": "frontend",
     "tags": [
-      "[TODO: add 3-5 tags]"
+      "card",
+      "surface",
+      "elevation",
+      "accent-stripe",
+      "styles"
     ]
   },
-  "description": "[TODO] Describe what Canvas Card Surface does",
+  "description": "Elevated card surface style generator with an accent-colored left border stripe. cardSurfaceStyles(options) returns base and hover style objects for a clean white card with subtle shadow, configurable accent stripe color, border radius, padding, and transition. cardSurfaceCss(className, options) produces a ready-to-inject CSS string. All visual values are parameterized with sensible defaults (warm-light palette). Framework-agnostic \u2014 returns plain objects, not components.",
   "tech_stack": {
     "language": "typescript",
     "dependencies": []
@@ -18,5 +22,10 @@
     "general": "Single responsibility - one widget does one thing. No global state. No project-specific code, hardcoded paths, credentials, or environment-specific values. Expose variation points as constructor parameters or function arguments - no hardcoded thresholds, colors, sizes, or behavior flags. URLs and endpoints belong in examples as demonstration data, not in src/ - if a widget needs a URL to operate, it must be a parameter the caller provides. All dependencies must be declared in widget.json tech_stack.dependencies. Widgets cannot depend on other widgets - they must be fully self-contained. If you need logic from another widget, copy it into src/ directly. Examples must run and exit cleanly with no user input, no network calls, and no external services or API keys - use fake/hardcoded data. The widget's own declared dependencies are fine and will be installed by the validator before the example runs. Do not modify library_notes - it is managed by Cartograph and will be restored on checkin.",
     "language": "",
     "domain": "All appearance values (colors, spacing, typography, shadows) must be exposed as parameters or CSS custom properties - hardcoded values lock consumers into your choices. Provide sensible defaults but every visual value must be overridable. No inline styles for anything that could vary by theme."
+  },
+  "validation": {
+    "engine_version": 2,
+    "validated_at": "2026-05-09T17:27:16.997281+00:00",
+    "runtime": "node 22.22.2"
   }
 }

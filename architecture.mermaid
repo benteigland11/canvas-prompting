@@ -8,8 +8,6 @@ flowchart TD
 [external]"])
     subgraph frontend_app["frontend_app
 [application]"]
-        canvas_ui["canvas_ui
-[frontend]"]:::frontend
         reactive_store[("◆ reactive_store
 [datastore]
 <frontend-reactive-stale-store-typescript>")]:::data
@@ -19,6 +17,23 @@ flowchart TD
         fetch_client("◆ fetch_client
 [service]
 <frontend-retry-fetch-client-typescript>"):::frontend
+        subgraph canvas_ui["canvas_ui
+[application]"]
+            canvas_surface["canvas_surface
+[frontend]"]:::frontend
+            card_renderer["◆ card_renderer
+[frontend]
+<frontend-canvas-card-surface-typescript>"]:::frontend
+            wire_renderer["wire_renderer
+[frontend]"]:::frontend
+            thread_tray["thread_tray
+[frontend]"]:::frontend
+            toolbar["toolbar
+[frontend]"]:::frontend
+            theme_layer("◆ theme_layer
+[service]
+<cg-frontend-design-tokens-javascript, frontend-canvas-theme-provider-typescript>"):::frontend
+        end
     end
     subgraph backend_app["backend_app
 [deployment]"]
@@ -30,8 +45,9 @@ flowchart TD
         execution_engine("◆ execution_engine
 [service]
 <cg_backend_llm_provider_interface_python>"):::backend
-        agent_runtime("agent_runtime
-[service]"):::backend
+        agent_runtime("◆ agent_runtime
+[service]
+<cg_universal_tool_invocation_python, cg_universal_agent_tool_loop_python>"):::backend
         relational_db[("relational_db
 [datastore]")]:::data
     end
@@ -45,20 +61,30 @@ flowchart TD
         _legend_edge_eeg_a[" "]
         _legend_edge_eeg_b["data flow / constraint"]
     end
-    user -->|"interacts_with"| canvas_ui
-    canvas_ui ==>|"reads_writes: Graph mutations"| reactive_store
-    canvas_ui -->|"triggers: Load/Save events"| session_state
+    user -->|"interacts_with: Pan, zoom, click, drag"| canvas_surface
+    user -->|"interacts_with: Run, Re-flow, create card"| toolbar
+    user -->|"interacts_with: Ephemeral chat, Commit to Card"| thread_tray
+    canvas_surface ==>|"reads: Node positions for layout"| reactive_store
+    card_renderer ==>|"reads_writes: Card content, type, stale status"| reactive_store
+    wire_renderer ==>|"reads: Edge topology, stale flags"| reactive_store
+    thread_tray ==>|"reads_writes: Ephemeral thread state, commit mutations"| reactive_store
+    theme_layer -->|"provides: CSS custom properties"| canvas_surface
+    theme_layer -->|"provides: Card accent colors, typography"| card_renderer
+    theme_layer -->|"provides: Wire stroke styles, stale-glow tokens"| wire_renderer
+    toolbar -->|"triggers_run: Target node ID"| compiler
+    toolbar -->|"mutates: Create card, re-flow stale"| reactive_store
+    canvas_surface -->|"triggers: Load/Save events"| session_state
     session_state -->|"calls: Wraps API requests"| fetch_client
     fetch_client -->|"calls: HTTP Requests"| workspace_api
     session_state -->|"mutates: Hydrates graph"| reactive_store
     workspace_api ==>|"reads_writes: Session Data"| relational_db
-    canvas_ui -->|"triggers_run: Target node ID"| compiler
     compiler ==>|"reads: Ancestry paths/Graph topology"| relational_db
     compiler -->|"passes_context: Linearized context array"| execution_engine
     execution_engine -->|"calls: Prompt + Tools"| llm_service
     llm_service -->|"returns_tools: Canvas Operations"| agent_runtime
     agent_runtime -->|"mutates: Updates graph state"| relational_db
     _legend_edge_eeg_a ==> _legend_edge_eeg_b
+    click card_renderer href "cg/frontend-canvas-card-surface-typescript/" "Open frontend-canvas-card-surface-typescript"
     click reactive_store href "cg/frontend-reactive-stale-store-typescript/" "Open frontend-reactive-stale-store-typescript"
     click session_state href "cg/frontend-session-state-store-typescript/" "Open frontend-session-state-store-typescript"
     click fetch_client href "cg/frontend-retry-fetch-client-typescript/" "Open frontend-retry-fetch-client-typescript"
