@@ -1,0 +1,11 @@
+{
+  "name": "frontend-design-tokens-javascript",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {},
+  "devDependencies": {
+    "vitest": "^1.0.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "happy-dom": "^15.0.0"
+  }
+}
