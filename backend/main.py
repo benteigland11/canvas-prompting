@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 
 from .database import engine, create_db_and_tables, get_session
 from .models import Workspace, Node, Edge
+from .compiler import router as compiler_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,6 +13,7 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(compiler_router)
 
 @app.post("/workspaces/", response_model=Workspace)
 def create_workspace(workspace: Workspace, session: Session = Depends(get_session)):
