@@ -1,0 +1,28 @@
+{
+  "id": "bp-universal-llm-engine-python",
+  "name": "universal-llm-engine",
+  "language": "python",
+  "version": "0.1.0",
+  "description": "A higher-order blueprint that composes the canonical LLM Provider Interface with vendor-specific adapters (xAI) into a unified LLM Execution Engine.",
+  "tags": [
+    "llm",
+    "execution",
+    "adapter",
+    "grok",
+    "xai"
+  ],
+  "dependencies": [
+    {
+      "id": "cg-backend-llm-provider-interface-python",
+      "version": "1.2.0"
+    },
+    {
+      "id": "cg-backend-xai-client-python",
+      "version": "1.2.3"
+    }
+  ],
+  "domains": [
+    "backend",
+    "universal"
+  ]
+}
