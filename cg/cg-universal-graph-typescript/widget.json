@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "id": "universal-graph-typescript",
+    "name": "Graph",
+    "version": "1.1.1",
+    "domain": "universal",
+    "tags": [
+      "graph",
+      "tree",
+      "traversal",
+      "data-structure",
+      "validation"
+    ]
+  },
+  "description": "Layer-1 typed graph: nodes with generic payload + tags, tagged edges, directed/undirected. Validation returns structured issues (no throws), indexed view gives O(1) neighbor queries, full traversal suite (bfs, dfs, shortestPath, subgraph) and tree ops (parentOf, childrenOf, ancestors, descendants, roots, isAcyclic). Also exposes PositionedGraph<P> / PositionedNode<P> types and requirePositioned(g) \u2014 a narrowing helper that asserts every node has a payload, producing a type structurally compatible with downstream spatial/kinematic widgets. Pure data, no geometry opinions, no dependencies.",
+  "tech_stack": {
+    "language": "typescript",
+    "dependencies": []
+  },
+  "custom_notes": "",
+  "library_notes": {
+    "general": "Single responsibility - one widget does one thing. No global state. No project-specific code, hardcoded paths, credentials, or environment-specific values. Expose variation points as constructor parameters or function arguments - no hardcoded thresholds, colors, sizes, or behavior flags. URLs and endpoints belong in examples as demonstration data, not in src/ - if a widget needs a URL to operate, it must be a parameter the caller provides. All dependencies must be declared in widget.json tech_stack.dependencies. Widgets cannot depend on other widgets - they must be fully self-contained. If you need logic from another widget, copy it into src/ directly. Examples must run and exit cleanly with no user input, no network calls, and no external services or API keys - use fake/hardcoded data. The widget's own declared dependencies are fine and will be installed by the validator before the example runs. Do not modify library_notes - it is managed by Cartograph and will be restored on checkin.",
+    "language": "",
+    "domain": "Use this domain when a widget spans multiple domains or has no clear home \u2014 not because it must be pure. A retry utility, a date formatter, a general-purpose HTTP client all belong here. Expose variation points as parameters. Don't force it into a domain just to avoid universal."
+  },
+  "validation": {
+    "engine_version": 1,
+    "validated_at": "2026-04-23T16:56:31.784989+00:00",
+    "runtime": "node 22.22.0"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "id": "backend-sqlite-python",
+    "name": "SQLite Utilities",
+    "version": "1.0.0",
+    "domain": "backend",
+    "tags": [
+      "sqlite",
+      "database",
+      "migration",
+      "bulk-insert",
+      "query"
+    ]
+  },
+  "description": "Lightweight SQLite utilities using stdlib sqlite3: connect (context manager with WAL, foreign keys, auto commit/rollback), query_all and query_one (return plain dicts), bulk_insert (multi-row INSERT with conflict resolution), and migrate (version-tracked schema migrations). No dependencies beyond the standard library.",
+  "tech_stack": {
+    "language": "python",
+    "dependencies": []
+  },
+  "library_notes": {
+    "general": "Single responsibility \u2014 one widget does one thing. No global state. No project-specific code, hardcoded paths, credentials, or environment-specific values. Expose variation points as constructor parameters or function arguments \u2014 no hardcoded thresholds, colors, sizes, or behavior flags. All dependencies must be declared in widget.json tech_stack.dependencies. Examples must run and exit cleanly with no user input, no network calls, and no external dependencies. Do not modify library_notes \u2014 it is managed by Cartograph and will be restored on checkin.",
+    "language": "Use pytest for all tests \u2014 no unittest. Type hints required on all public functions. No __init__.py in tests/. No if __name__ == '__main__' blocks in src/ files. Imports ordered: stdlib, third-party, local."
+  }
+}

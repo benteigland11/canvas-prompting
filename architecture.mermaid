@@ -1,0 +1,56 @@
+flowchart TD
+    classDef backend fill:#e6f3ff,stroke:#3a78c9,color:#1a3a6a
+    classDef data fill:#fff5e6,stroke:#c98c3a,color:#6a4a1a
+    classDef frontend fill:#fffae6,stroke:#c9b03a,color:#6a5a1a
+    user(["user
+[external]"])
+    llm_service(["llm_service
+[external]"])
+    subgraph frontend_app["frontend_app
+[application]"]
+        canvas_ui["canvas_ui
+[frontend]"]:::frontend
+        reactive_store[("reactive_store
+[datastore]")]:::data
+        session_state("session_state
+[service]"):::frontend
+        fetch_client("fetch_client
+[service]"):::frontend
+    end
+    subgraph backend_app["backend_app
+[deployment]"]
+        workspace_api("workspace_api
+[service]"):::backend
+        compiler("compiler
+[service]"):::backend
+        execution_engine("execution_engine
+[service]"):::backend
+        agent_runtime("agent_runtime
+[service]"):::backend
+        relational_db[("relational_db
+[datastore]")]:::data
+    end
+    subgraph _legend["Legend"]
+        _legend_domain_backend["backend"]:::backend
+        _legend_domain_data["data"]:::data
+        _legend_domain_frontend["frontend"]:::frontend
+        _legend_shape_cylinder[("datastore")]
+        _legend_shape_rounded("service / engine / pipeline")
+        _legend_shape_stadium(["external"])
+        _legend_edge_eeg_a[" "]
+        _legend_edge_eeg_b["data flow / constraint"]
+    end
+    user -->|"interacts_with"| canvas_ui
+    canvas_ui ==>|"reads_writes: Graph mutations"| reactive_store
+    canvas_ui -->|"triggers: Load/Save events"| session_state
+    session_state -->|"calls: Wraps API requests"| fetch_client
+    fetch_client -->|"calls: HTTP Requests"| workspace_api
+    session_state -->|"mutates: Hydrates graph"| reactive_store
+    workspace_api ==>|"reads_writes: Session Data"| relational_db
+    canvas_ui -->|"triggers_run: Target node ID"| compiler
+    compiler ==>|"reads: Ancestry paths/Graph topology"| relational_db
+    compiler -->|"passes_context: Linearized context array"| execution_engine
+    execution_engine -->|"calls: Prompt + Tools"| llm_service
+    llm_service -->|"returns_tools: Canvas Operations"| agent_runtime
+    agent_runtime -->|"mutates: Updates graph state"| relational_db
+    _legend_edge_eeg_a ==> _legend_edge_eeg_b
