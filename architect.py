@@ -128,6 +128,27 @@ architecture = Architecture(
             parent="ux_system",
         ),
 
+        # Population Sub-Engines
+        Component(id="shatter_engine", kind="module", domains=["universal"], description="Parses dropped PDFs/folders and spawns card clusters.", parent="population_controller"),
+        Component(id="collision_physics", kind="module", domains=["universal"], description="Monitors drag coordinates and triggers Synthesize prompts on card smashes.", parent="population_controller"),
+        Component(id="atmosphere_registry", kind="module", domains=["universal"], description="Tracks cards pinned to viewport edges and injects them as global system prompts.", parent="population_controller"),
+
+        # Framing Sub-Engines
+        Component(id="viewport_culler", kind="module", domains=["universal"], description="Hooks camera bounds to filter off-screen context.", parent="framing_controller"),
+        Component(id="aura_scrubber", kind="module", domains=["universal"], description="Manages the translucent Gravity Well, scaling radius via Shift+Scroll to select nodes.", parent="framing_controller"),
+        Component(id="wormhole_router", kind="module", domains=["universal"], description="Listens for Alt+Click to draw and track glowing spatial-bypass Edges.", parent="framing_controller"),
+
+        # Neurosurgery Sub-Engines
+        Component(id="premise_hijacker", kind="module", domains=["universal"], description="Converts rendered cards to raw <textarea> for direct edits.", parent="neurosurgery_controller"),
+        Component(id="synapse_sever", kind="module", domains=["universal"], description="Hit-tests SVG wires for Hover+Delete to sever Edges.", parent="neurosurgery_controller"),
+        Component(id="shove_physics", kind="module", domains=["universal"], description="Calculates cluster distance to lerp opacity and drop context gravity.", parent="neurosurgery_controller"),
+        Component(id="ripple_propagator", kind="module", domains=["universal"], description="Walks downstream edges from edited nodes to mark children Stale.", parent="neurosurgery_controller"),
+
+        # Delegation Sub-Engines
+        Component(id="lasso_selector", kind="module", domains=["universal"], description="Handles bounding box grouping of multiple cards.", parent="delegation_engine"),
+        Component(id="macro_dispatcher", kind="module", domains=["universal"], description="Bundles lassoed cards for Explode/Squash macros sent to backend.", parent="delegation_engine"),
+        Component(id="auto_tectonics", kind="module", domains=["universal"], description="Spring-physics (d3-force) to repel disjoint clusters and organize wires.", parent="delegation_engine"),
+
         # ── Frontend Data / Services ─────────────────────────────────
         Component(
             id='reactive_store',
