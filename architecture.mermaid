@@ -2,6 +2,7 @@ flowchart TD
     classDef backend fill:#e6f3ff,stroke:#3a78c9,color:#1a3a6a
     classDef data fill:#fff5e6,stroke:#c98c3a,color:#6a4a1a
     classDef frontend fill:#fffae6,stroke:#c9b03a,color:#6a5a1a
+    classDef universal fill:#f0f0f0,stroke:#666666,color:#222222
     user(["user
 [external]"])
     llm_service(["llm_service
@@ -37,17 +38,17 @@ flowchart TD
 [service]
 <cg-frontend-design-tokens-javascript, frontend-canvas-theme-provider-typescript>"):::frontend
         end
-        subgraph ux_system["ux_system
+    end
+    subgraph ux_system["ux_system
 [application]"]
-            population_controller["population_controller
-[frontend]"]:::frontend
-            framing_controller["framing_controller
-[frontend]"]:::frontend
-            neurosurgery_controller["neurosurgery_controller
-[frontend]"]:::frontend
-            delegation_engine["delegation_engine
-[frontend]"]:::frontend
-        end
+        population_controller("population_controller
+[service]"):::universal
+        framing_controller("framing_controller
+[service]"):::universal
+        neurosurgery_controller("neurosurgery_controller
+[service]"):::universal
+        delegation_engine("delegation_engine
+[service]"):::universal
     end
     subgraph backend_app["backend_app
 [deployment]"]
@@ -69,6 +70,7 @@ flowchart TD
         _legend_domain_backend["backend"]:::backend
         _legend_domain_data["data"]:::data
         _legend_domain_frontend["frontend"]:::frontend
+        _legend_domain_universal["universal"]:::universal
         _legend_shape_cylinder[("datastore")]
         _legend_shape_rounded("service / engine / pipeline")
         _legend_shape_stadium(["external"])
