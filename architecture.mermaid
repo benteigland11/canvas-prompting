@@ -10,21 +10,26 @@ flowchart TD
 [application]"]
         canvas_ui["canvas_ui
 [frontend]"]:::frontend
-        reactive_store[("reactive_store
-[datastore]")]:::data
-        session_state("session_state
-[service]"):::frontend
-        fetch_client("fetch_client
-[service]"):::frontend
+        reactive_store[("◆ reactive_store
+[datastore]
+<frontend-reactive-stale-store-typescript>")]:::data
+        session_state("◆ session_state
+[service]
+<frontend-session-state-store-typescript>"):::frontend
+        fetch_client("◆ fetch_client
+[service]
+<frontend-retry-fetch-client-typescript>"):::frontend
     end
     subgraph backend_app["backend_app
 [deployment]"]
         workspace_api("workspace_api
 [service]"):::backend
-        compiler("compiler
-[service]"):::backend
-        execution_engine("execution_engine
-[service]"):::backend
+        compiler("◆ compiler
+[service]
+<cg_universal_graph_python, universal_llm_context_bundle_python>"):::backend
+        execution_engine("◆ execution_engine
+[service]
+<cg_backend_llm_provider_interface_python>"):::backend
         agent_runtime("agent_runtime
 [service]"):::backend
         relational_db[("relational_db
@@ -54,3 +59,7 @@ flowchart TD
     llm_service -->|"returns_tools: Canvas Operations"| agent_runtime
     agent_runtime -->|"mutates: Updates graph state"| relational_db
     _legend_edge_eeg_a ==> _legend_edge_eeg_b
+    click reactive_store href "cg/frontend-reactive-stale-store-typescript/" "Open frontend-reactive-stale-store-typescript"
+    click session_state href "cg/frontend-session-state-store-typescript/" "Open frontend-session-state-store-typescript"
+    click fetch_client href "cg/frontend-retry-fetch-client-typescript/" "Open frontend-retry-fetch-client-typescript"
+    click execution_engine href "cg/cg_backend_llm_provider_interface_python/" "Open cg_backend_llm_provider_interface_python"
