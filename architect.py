@@ -75,6 +75,10 @@ architecture = Architecture(
             domains=["frontend"],
             description="Control bar with Run, Re-flow, card creation buttons, and workspace controls. Docked to the canvas edge.",
             parent="canvas_ui",
+            widgets=[
+                "frontend-toolbar-action-registry-typescript",
+                "frontend-toolbar-state-resolver-typescript",
+            ],
         ),
         Component(
             id="theme_layer",
@@ -88,40 +92,39 @@ architecture = Architecture(
             ],
         ),
 
-        # ── UX System ───────────────────────────────────────────────
+        # ── UX Orchestration System ─────────────────────────────────
         Component(
             id="ux_system",
             kind="application",
-            domains=["frontend"],
-            description="The behavioral interaction system mapping to UX domains: Populating, Framing, Probing, Neurosurgery, and Delegation.",
-            parent="frontend_app",
+            domains=["universal"],
+            description="The behavioral interaction system mapping to UX domains: Populating, Framing, Probing, Neurosurgery, and Delegation. Acts as the cognitive nervous system between UI and Backend.",
         ),
         Component(
             id="population_controller",
-            kind="frontend",
-            domains=["frontend"],
+            kind="service",
+            domains=["universal"],
             description="Handles Shatter-Drop parsing, Forced Collision detection, and Atmosphere Pinning.",
             parent="ux_system",
         ),
         Component(
             id="framing_controller",
-            kind="frontend",
-            domains=["frontend"],
+            kind="service",
+            domains=["universal"],
             description="Enforces Camera-as-Prompt context boundaries, manages Aura Scrubbing (Shift+Scroll), and explicit Wormhole Tethering.",
             parent="ux_system",
         ),
         Component(
             id="neurosurgery_controller",
-            kind="frontend",
-            domains=["frontend"],
+            kind="service",
+            domains=["universal"],
             description="Manages Premise Hijacking, Synapse Severing (Delete wires), The Shove (context exile), and the Re-Flow Ripple.",
             parent="ux_system",
         ),
         Component(
             id="delegation_engine",
-            kind="frontend",
-            domains=["frontend"],
-            description="Command router that bundles cards for Explode, Squash, and Auto-Tectonics dispatch to the backend.",
+            kind="service",
+            domains=["universal"],
+            description="Command router that bundles cards for Explode, Squash, and Auto-Tectonics dispatch to the backend execution layer.",
             parent="ux_system",
         ),
 
