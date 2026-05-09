@@ -52,6 +52,11 @@ architecture = Architecture(
             domains=["frontend"],
             description="Renders directed edges (wires) between cards. Handles default, active, and stale-glow states. Draws animated dash patterns for in-progress execution and yellow pulse for stale dependencies.",
             parent="canvas_ui",
+            widgets=[
+                "frontend-edge-path-builder-typescript",
+                "frontend-wire-state-resolver-typescript",
+                "cg-frontend-light-streak-path-typescript",
+            ],
         ),
         Component(
             id="thread_tray",
@@ -59,6 +64,10 @@ architecture = Architecture(
             domains=["frontend"],
             description="Ephemeral micro-thread panel that slides out from a card. Provides a bounded chat context for iterating on a single card's content without polluting the main canvas. Exposes a 'Commit to Card' action.",
             parent="canvas_ui",
+            widgets=[
+                "universal-thread-store-typescript",
+                "frontend-thread-tray-controller-typescript",
+            ],
         ),
         Component(
             id="toolbar",
@@ -77,6 +86,43 @@ architecture = Architecture(
                 "cg-frontend-design-tokens-javascript",
                 "frontend-canvas-theme-provider-typescript",
             ],
+        ),
+
+        # ── UX System ───────────────────────────────────────────────
+        Component(
+            id="ux_system",
+            kind="application",
+            domains=["frontend"],
+            description="The behavioral interaction system mapping to UX domains: Populating, Framing, Probing, Neurosurgery, and Delegation.",
+            parent="frontend_app",
+        ),
+        Component(
+            id="population_controller",
+            kind="frontend",
+            domains=["frontend"],
+            description="Handles Shatter-Drop parsing, Forced Collision detection, and Atmosphere Pinning.",
+            parent="ux_system",
+        ),
+        Component(
+            id="framing_controller",
+            kind="frontend",
+            domains=["frontend"],
+            description="Enforces Camera-as-Prompt context boundaries, manages Aura Scrubbing (Shift+Scroll), and explicit Wormhole Tethering.",
+            parent="ux_system",
+        ),
+        Component(
+            id="neurosurgery_controller",
+            kind="frontend",
+            domains=["frontend"],
+            description="Manages Premise Hijacking, Synapse Severing (Delete wires), The Shove (context exile), and the Re-Flow Ripple.",
+            parent="ux_system",
+        ),
+        Component(
+            id="delegation_engine",
+            kind="frontend",
+            domains=["frontend"],
+            description="Command router that bundles cards for Explode, Squash, and Auto-Tectonics dispatch to the backend.",
+            parent="ux_system",
         ),
 
         # ── Frontend Data / Services ─────────────────────────────────
@@ -181,6 +227,17 @@ architecture = Architecture(
         # Toolbar triggers
         Edge(source="toolbar", target="compiler", kind="triggers_run", what="Target node ID"),
         Edge(source="toolbar", target="reactive_store", kind="mutates", what="Create card, re-flow stale"),
+
+        # UX Behaviors
+        Edge(source="user", target="population_controller", kind="interacts_with", what="Shatter-drop files, pin rules"),
+        Edge(source="user", target="framing_controller", kind="interacts_with", what="Shift+scroll aura, Alt+click tether"),
+        Edge(source="user", target="neurosurgery_controller", kind="interacts_with", what="Double-click to hijack, delete to sever"),
+        Edge(source="user", target="delegation_engine", kind="interacts_with", what="Lasso and click Squash/Explode"),
+        
+        Edge(source="population_controller", target="reactive_store", kind="mutates", what="Bulk spawn cards, update gravity"),
+        Edge(source="framing_controller", target="canvas_surface", kind="reads_writes", what="Viewport bounds, Aura UI overlay"),
+        Edge(source="neurosurgery_controller", target="reactive_store", kind="mutates", what="Edit nodes, delete edges, trigger Re-Flow"),
+        Edge(source="delegation_engine", target="compiler", kind="triggers_run", what="Specialized sub-graph prompts"),
 
         # Session / Network
         Edge(source="canvas_surface", target="session_state", kind="triggers", what="Load/Save events"),

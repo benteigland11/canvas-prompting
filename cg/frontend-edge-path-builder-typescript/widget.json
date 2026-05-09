@@ -1,0 +1,31 @@
+{
+  "meta": {
+    "id": "frontend-edge-path-builder-typescript",
+    "name": "Edge Path Builder",
+    "version": "1.0.0",
+    "domain": "frontend",
+    "tags": [
+      "edge",
+      "path",
+      "svg",
+      "bezier",
+      "arrowhead"
+    ]
+  },
+  "description": "Computes SVG path d-strings for directed edges between two positioned rectangles. Supports bezier, step, and straight routing modes. Resolves connection ports on source/target rect boundaries (top/bottom/left/right/auto). Generates arrowhead triangle geometry with configurable size and angle. Returns path string, arrowhead geometry, and resolved port positions. Pure math \u2014 no DOM, no framework.",
+  "tech_stack": {
+    "language": "typescript",
+    "dependencies": []
+  },
+  "custom_notes": "",
+  "library_notes": {
+    "general": "Single responsibility - one widget does one thing. No global state. No project-specific code, hardcoded paths, credentials, or environment-specific values. Expose variation points as constructor parameters or function arguments - no hardcoded thresholds, colors, sizes, or behavior flags. URLs and endpoints belong in examples as demonstration data, not in src/ - if a widget needs a URL to operate, it must be a parameter the caller provides. All dependencies must be declared in widget.json tech_stack.dependencies. Widgets cannot depend on other widgets - they must be fully self-contained. If you need logic from another widget, copy it into src/ directly. Examples must run and exit cleanly with no user input, no network calls, and no external services or API keys - use fake/hardcoded data. The widget's own declared dependencies are fine and will be installed by the validator before the example runs. Do not modify library_notes - it is managed by Cartograph and will be restored on checkin.",
+    "language": "",
+    "domain": "All appearance values (colors, spacing, typography, shadows) must be exposed as parameters or CSS custom properties - hardcoded values lock consumers into your choices. Provide sensible defaults but every visual value must be overridable. No inline styles for anything that could vary by theme."
+  },
+  "validation": {
+    "engine_version": 2,
+    "validated_at": "2026-05-09T18:25:09.103293+00:00",
+    "runtime": "node 22.22.2"
+  }
+}

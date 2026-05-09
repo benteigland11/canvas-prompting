@@ -1,0 +1,60 @@
+Here is a behavioral UX outline focused entirely on **verbs, gestures, and actions**. This defines what the user *physically does* to manipulate the system and how the dual-engine (Mouth/Brain) reacts.
+
+The core philosophy of this UX: **The user is no longer a supplicant arguing with a chat box. The user is a spatial Director and a Neurosurgeon.**
+
+Here are the 5 domains of user behavior:
+
+### 1. Populating (Feeding the Space)
+
+*How the user gets raw material into the system without typing monolithic prompts.*
+
+* **Shatter-Drop:** The user drags a massive PDF, a folder of code, or a messy wall of text directly onto the canvas. Instead of just attaching a file, the background Brain intercepts it, reads it, "shatters" it into a topographical cluster of distinct concept cards, and lays them out.
+* **Atmosphere Pinning:** The user creates a rule (e.g., *"Strictly output JSON"*). Instead of leaving it on the board where physical distance would weaken its context gravity, they drag it to the edge of the screen and pin it to the "Glass." It becomes atmospheric, applying infinite gravity to every query everywhere on the board.
+* **Forced Collision:** The user clicks and drags two completely unrelated, distant concept cards and smashes them into the same local space. This forced physical proximity commands the Brain to instantly synthesize or compare the two disparate ideas.
+
+### 2. Framing (Controlling Context)
+
+*How the user tells the model what to care about simply by navigating.*
+
+* **Camera-as-Prompt:** The user’s viewport defines the active context pool.
+* *Scroll to zoom out:* The Mouth drops localized details and adopts a high-level, macro-architectural persona.
+* *Scroll to zoom in:* The Mouth drops the rest of the board from memory and becomes a hyper-focused domain expert on the cluster centered on screen.
+
+
+* **Aura Scrubbing:** The user drops a spatial "Anchor" to ask a question. Before hitting enter, they hold `Shift` and scroll their mouse wheel. A translucent circle (the Gravity Well) visually inflates or deflates around the anchor. The user is manually resizing the token limit and context window with a physical gesture.
+* **Tethering (Wormholes):** The user is probing Cluster A, but desperately needs the Mouth to obey a specific rule sitting 10,000 pixels away in Cluster B. The user `Alt+Clicks` the distant card to draw a glowing tether to their local anchor, overriding spatial gravity with an explicit, temporary bridge.
+
+### 3. Probing (Conversing with the "Mouth")
+
+*How the user extracts insights and handles linear thought in a 2D space.*
+
+* **The Sonar Ping:** The user double-clicks any empty space on the board to drop an Anchor. They type a question. The Mouth only answers based on the cards illuminated by the local Gravity Well.
+* **Z-Axis Stacking:** The user engages in a rapid 5-message back-and-forth chat. To prevent the map from becoming a horizontal mess, the conversational replies magnetically snap directly beneath the Anchor. *Vertical space represents linear time (the chat); horizontal space represents semantic concepts (the map).*
+* **Reality Forking:** The user reaches a crossroads in a conversation. Instead of hitting "regenerate," they click the current card, drag it two inches to the right to duplicate it, and send a different prompt. The user is running parallel, non-contaminating multiverses side-by-side.
+
+### 4. Neurosurgery (Direct Manipulation)
+
+*How the user corrects the LLM without ever arguing with it.*
+
+* **Premise Hijacking (In-Place Edit):** The Mouth generates a card with a flawed assumption. The user doesn't type, *"No, you're wrong."* The user double-clicks the AI's card, manually deletes the bad text, types the correct assumption, and clicks away. The LLM accepts this physical intervention as absolute truth.
+* **Synapse Severing:** The user realizes the AI is hallucinating because it is associating two local cards together. The user hovers over the invisible gravity link (or explicit wire) connecting them and hits `Delete`. The physical link snaps, and the AI instantly drops the logical association.
+* **The "Shove" (Spatial Forgetting):** A topic is a dead end. Instead of clicking a delete button, the user physically "flicks" or drags the cluster to the far outer periphery of the canvas. Because it is spatially distant, its gravity drops to zero. The user makes the AI organically "forget" it via physical exile.
+* **Re-Flowing (The Ripple):** The user manually hijacks a foundational premise card at the top of a logical chain. The downstream cards instantly glow yellow to indicate their context is now "Stale." The user clicks "Ripple," and the Brain instantly recalculates all downstream cards based on the newly edited premise.
+
+### 5. Delegation (Managing the Autonomous Brain)
+
+*How the user commands the background agent to manage its own mess.*
+
+* **Explode (Unpacking):** The user highlights a broad card generated by the Mouth (`[Database Architecture]`) and clicks **"Explode."** The Brain fractures that single card into a constellation of 6 new, detailed sub-cards and arranges them in a halo around the original.
+* **Squash (Memory Consolidation):** A vertical Z-axis chat stack has grown to 15 cards. It's noisy and eating up tokens. The user lassos the stack and clicks **"Squash."** The Brain autonomously reads the 15 cards, generates a single dense "Summary Card," and archives the chat history.
+* **Auto-Tectonics:** The board is getting cluttered. The user lassos a messy quadrant and clicks **"Sort."** The user takes their hands off the mouse and watches as the Brain physically animates—pushing unrelated clusters away from each other and pulling highly-linked concepts into tight, titled groupings.
+
+---
+
+### The Vibe Shift
+
+In a traditional linear chat UI, the user loop is: **Type $\rightarrow$ Read $\rightarrow$ Argue $\rightarrow$ Scroll up to see what it forgot $\rightarrow$ Retype.** It is inherently frustrating.
+
+With this UX, the user loop becomes: **Shatter-Drop Data $\rightarrow$ Sort $\rightarrow$ Pan Camera $\rightarrow$ Scrub Context $\rightarrow$ Ping $\rightarrow$ Hijack a Node $\rightarrow$ Explode a Concept.**
+
+You stop begging a black box for the right output, and start directing an autonomous system as it physically maps out thought.

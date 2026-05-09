@@ -36,6 +36,17 @@ flowchart TD
 [service]
 <cg-frontend-design-tokens-javascript, frontend-canvas-theme-provider-typescript>"):::frontend
         end
+        subgraph ux_system["ux_system
+[application]"]
+            population_controller["population_controller
+[frontend]"]:::frontend
+            framing_controller["framing_controller
+[frontend]"]:::frontend
+            neurosurgery_controller["neurosurgery_controller
+[frontend]"]:::frontend
+            delegation_engine["delegation_engine
+[frontend]"]:::frontend
+        end
     end
     subgraph backend_app["backend_app
 [deployment]"]
@@ -75,6 +86,14 @@ flowchart TD
     theme_layer -->|"provides: Wire stroke styles, stale-glow tokens"| wire_renderer
     toolbar -->|"triggers_run: Target node ID"| compiler
     toolbar -->|"mutates: Create card, re-flow stale"| reactive_store
+    user -->|"interacts_with: Shatter-drop files, pin rules"| population_controller
+    user -->|"interacts_with: Shift+scroll aura, Alt+click tether"| framing_controller
+    user -->|"interacts_with: Double-click to hijack, delete to sever"| neurosurgery_controller
+    user -->|"interacts_with: Lasso and click Squash/Explode"| delegation_engine
+    population_controller -->|"mutates: Bulk spawn cards, update gravity"| reactive_store
+    framing_controller ==>|"reads_writes: Viewport bounds, Aura UI overlay"| canvas_surface
+    neurosurgery_controller -->|"mutates: Edit nodes, delete edges, trigger Re-Flow"| reactive_store
+    delegation_engine -->|"triggers_run: Specialized sub-graph prompts"| compiler
     canvas_surface -->|"triggers: Load/Save events"| session_state
     session_state -->|"calls: Wraps API requests"| fetch_client
     fetch_client -->|"calls: HTTP Requests"| workspace_api
