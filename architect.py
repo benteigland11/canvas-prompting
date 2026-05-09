@@ -37,6 +37,11 @@ architecture = Architecture(
             domains=["frontend"],
             description="Infinite pan/zoom viewport with grid-dot background pattern. Manages camera state (pan, zoom, viewport bounds) and delegates hit-testing to child layers.",
             parent="canvas_ui",
+            widgets=[
+                "frontend-viewport-camera-store-typescript",
+                "frontend-canvas-grid-pattern-typescript",
+                "frontend-canvas-hit-tester-typescript",
+            ],
         ),
         Component(
             id="card_renderer",

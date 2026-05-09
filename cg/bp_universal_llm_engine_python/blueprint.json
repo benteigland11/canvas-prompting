@@ -22,7 +22,11 @@
     }
   ],
   "domains": [
-    "backend",
-    "universal"
-  ]
+    "backend"
+  ],
+  "validation": {
+    "engine_version": 1,
+    "validated_at": "2026-05-09T19:33:19.183727+00:00",
+    "runtime": "python 3.14.4"
+  }
 }

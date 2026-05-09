@@ -1,6 +1,6 @@
 {
   "meta": {
-    "id": "backend-llm-provider-interface-python",
+    "id": "cg-backend-llm-provider-interface-python",
     "name": "LLM Provider Interface",
     "version": "1.2.0",
     "domain": "backend",

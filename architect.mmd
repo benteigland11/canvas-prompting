@@ -20,8 +20,9 @@ flowchart TD
 <frontend-retry-fetch-client-typescript>"):::frontend
         subgraph canvas_ui["canvas_ui
 [application]"]
-            canvas_surface["canvas_surface
-[frontend]"]:::frontend
+            canvas_surface["◆ canvas_surface
+[frontend]
+<frontend-viewport-camera-store-typescript, frontend-canvas-grid-pattern-typescript, frontend-canvas-hit-tester-typescript>"]:::frontend
             card_renderer["◆ card_renderer
 [frontend]
 <frontend-canvas-card-surface-typescript>"]:::frontend
@@ -41,14 +42,44 @@ flowchart TD
     end
     subgraph ux_system["ux_system
 [application]"]
-        population_controller("population_controller
-[service]"):::universal
-        framing_controller("framing_controller
-[service]"):::universal
-        neurosurgery_controller("neurosurgery_controller
-[service]"):::universal
-        delegation_engine("delegation_engine
-[service]"):::universal
+        subgraph population_controller["population_controller
+[service]"]
+            shatter_engine["shatter_engine
+[module]"]:::universal
+            collision_physics["collision_physics
+[module]"]:::universal
+            atmosphere_registry["atmosphere_registry
+[module]"]:::universal
+        end
+        subgraph framing_controller["framing_controller
+[service]"]
+            viewport_culler["viewport_culler
+[module]"]:::universal
+            aura_scrubber["aura_scrubber
+[module]"]:::universal
+            wormhole_router["wormhole_router
+[module]"]:::universal
+        end
+        subgraph neurosurgery_controller["neurosurgery_controller
+[service]"]
+            premise_hijacker["premise_hijacker
+[module]"]:::universal
+            synapse_sever["synapse_sever
+[module]"]:::universal
+            shove_physics["shove_physics
+[module]"]:::universal
+            ripple_propagator["ripple_propagator
+[module]"]:::universal
+        end
+        subgraph delegation_engine["delegation_engine
+[service]"]
+            lasso_selector["lasso_selector
+[module]"]:::universal
+            macro_dispatcher["macro_dispatcher
+[module]"]:::universal
+            auto_tectonics["auto_tectonics
+[module]"]:::universal
+        end
     end
     subgraph backend_app["backend_app
 [deployment]"]

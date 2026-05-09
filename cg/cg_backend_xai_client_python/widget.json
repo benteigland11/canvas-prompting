@@ -1,6 +1,6 @@
 {
   "meta": {
-    "id": "backend-xai-client-python",
+    "id": "cg-backend-xai-client-python",
     "name": "xAI Client",
     "version": "1.2.3",
     "domain": "backend",
